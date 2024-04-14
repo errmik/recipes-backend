@@ -13,12 +13,12 @@ await connectDB();
 // calling the express function
 const app = express();
 
-// Creating a "/home" route for sending "Hello World!😎😎" to the clientSide(Browser)
+// Creating a "/home" route for sending "Hello World!" to the clientSide(Browser)
 app.get("/home", (req, res) => {
     res.status(200).send("<h1>Hello World!</h1>")
 })
 
-// Creating a "/home" route for sending "Hello World!😎😎" to the clientSide(Browser)
+// Creating a "/home" route for sending "Hello World!" to the clientSide(Browser)
 app.get("/test", async (req, res) => {
 
     try {

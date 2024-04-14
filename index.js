@@ -15,7 +15,7 @@ const app = express();
 
 // Creating a "/home" route for sending "Hello World!😎😎" to the clientSide(Browser)
 app.get("/home", (req, res) => {
-    res.status(200).send("<h1>Hello World!😎😎</h1>")
+    res.status(200).send("<h1>Hello World!</h1>")
 })
 
 // Creating a "/home" route for sending "Hello World!😎😎" to the clientSide(Browser)

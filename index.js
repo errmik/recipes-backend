@@ -2,25 +2,26 @@ import dotenv from 'dotenv'
 import express from 'express';
 import 'express-async-errors';
 
-//database
+//Database
 import { connectDB } from "./db/connect.js";
 
-//middleware
+//Middleware
 import { notFound as notFoundMiddleware } from './middleware/notfound.js';
 import { errorHandler as errorHandlerMiddleware } from './middleware/errorHandler.js';
 
-//routes
+//Routes
 import { ingredientsRouter } from './routes/ingredients.js'
 
+//Load .env file
 dotenv.config();
 
-// calling the express function
+//Load express
 const app = express();
 
-//middleware
+//Middleware
 app.use(express.json())
 
-//routes
+//Routes
 app.use('/api/v1/ingredients', ingredientsRouter)
 
 //404 management

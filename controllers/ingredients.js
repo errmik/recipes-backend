@@ -7,6 +7,7 @@ import { notFound } from '../errors/customError.js'
 
 const getAllIngredients = async (req, res) => {
 
+    let totalHits = await Ingredient.estimatedDocumentCount({});
     const ingredients = await Ingredient.find({}).exec();
 
     res.status(200).json({ ingredients })

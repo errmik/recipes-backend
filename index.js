@@ -1,12 +1,13 @@
-// Importing the express module
+import dotenv from 'dotenv'
 import express from 'express';
 import moment from 'moment';
-import mongoose from "mongoose";
 
 import connectDB from "./config/db.js";
 
 import { Ingredient } from "./models/ingredient.js";
 import { Recipe } from './models/recipe.js';
+
+dotenv.config();
 
 await connectDB();
 
@@ -88,11 +89,7 @@ app.get("/test2", async (req, res) => {
     }
 })
 
-// declaring our Port number variable
-const PORT = process.env.PORT || 4000;
-
-// Creating a server with the PORT variable declared above
-app.listen(PORT, () => {
+app.listen(process.env.PORT, () => {
     console.log(`Listening to Port ${PORT}`)
 });
 

@@ -1,98 +1,49 @@
 import dotenv from 'dotenv'
 import express from 'express';
-import moment from 'moment';
+import 'express-async-errors';
 
-import connectDB from "./config/db.js";
+//database
+import { connectDB } from "./db/connect.js";
 
-import { Ingredient } from "./models/ingredient.js";
-import { Recipe } from './models/recipe.js';
+//middleware
+import { notFound as notFoundMiddleware } from './middleware/notfound.js';
+import { errorHandler as errorHandlerMiddleware } from './middleware/errorHandler.js';
+
+//routes
+import { ingredientsRouter } from './routes/ingredients.js'
 
 dotenv.config();
-
-await connectDB();
 
 // calling the express function
 const app = express();
 
-// Creating a "/home" route for sending "Hello World!" to the clientSide(Browser)
-app.get("/home", (req, res) => {
-    res.status(200).send("<h1>Hello World!</h1>")
-})
+//middleware
+app.use(express.json())
 
-// Creating a "/home" route for sending "Hello World!" to the clientSide(Browser)
-app.get("/test", async (req, res) => {
+//routes
+app.use('/api/v1/ingredients', ingredientsRouter)
 
-    try {
+//404 management
+app.use(notFoundMiddleware)
 
-        const ingredient = new Ingredient({
-            name: "test",
-            alcoholic: true,
-            description: "test desc",
-            createdDate: moment()
-        });
+//error management
+app.use(errorHandlerMiddleware)
 
-        await ingredient.save();
-
-        const recipe = new Recipe({
-            name: "test recipe",
-            alcoholic: true,
-            description: "test desc recipe",
-            createdDate: moment(),
-            ingredients: [
-                {
-                    ingredient: ingredient.id,
-                    quantity: 2,
-                    quantityType: "units"
-                }
-            ]
-        });
-
-        await recipe.save();
-
-        res.status(200).json({ message: 'added!' })
-
-    } catch (err) {
-        console.log(err)
-        if (err.code == '11000') {
-            res.send('User Already Exists!');
-        }
-        else {
-            res.send({ status: 'err', message: err });
-        }
-    }
-})
-
-app.get("/test2", async (req, res) => {
+const start = async () => {
 
     try {
 
-        var ingredients = await Ingredient.find();;
+        await connectDB(process.env.RECIPES_DB_URL);
 
-        var recipes = await Recipe.find({});
-
-        recipes.map((r) => {console.log(r.ingredients)});
-
-        recipes = await Recipe.find({}).populate("ingredients.ingredient");
-
-        recipes.map((r) => {console.log(r.ingredients)});
-
-        res.status(200).json({ message: 'added!' })
+        app.listen(process.env.PORT, () => {
+            console.log(`Listening to Port ${process.env.PORT}`)
+        });
 
     } catch (err) {
-        console.log(err)
-        if (err.code == '11000') {
-            res.send('User Already Exists!');
-        }
-        else {
-            res.send({ status: 'err', message: err });
-        }
+        console.log(err);
     }
-})
+}
 
-app.listen(process.env.PORT, () => {
-    console.log(`Listening to Port ${PORT}`)
-});
+start();
 
-
-//mongodb+srv://mikeerrecart:rCY5K6y8B3DTTEpa@recipescluster.wa3ifed.mongodb.net/?retryWrites=true&w=majority&appName=RecipesCluster
 //https://stackoverflow.com/questions/61305997/how-to-implement-recipes-in-mongodb-mongoose

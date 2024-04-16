@@ -1,14 +1,42 @@
+import { StatusCodes } from "http-status-codes"
+
 class CustomError extends Error {
 
-    constructor(message, statusCode) {
+    constructor(message) {
         super(message)
-        this.statusCode = statusCode
     }
 
 }
 
-const notFound = () => {
-    return new CustomError('not found', 404);
+class NotFoundError extends CustomError {
+
+    constructor(message) {
+        super(message)
+        this.statusCode = StatusCodes.NOT_FOUND
+    }
+
 }
 
-export { CustomError, notFound }
+class BadRequestError extends CustomError {
+
+    constructor(message) {
+        super(message)
+        this.statusCode = StatusCodes.BAD_REQUEST
+    }
+
+}
+
+class UnauthorizedError extends CustomError {
+
+    constructor(message) {
+        super(message)
+        this.statusCode = StatusCodes.UNAUTHORIZED
+    }
+
+}
+
+// const notFound = () => {
+//     return new CustomError('not found', 404);
+// }
+
+export { CustomError, NotFoundError, BadRequestError, UnauthorizedError }

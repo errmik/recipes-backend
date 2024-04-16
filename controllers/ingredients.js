@@ -1,16 +1,18 @@
+import { StatusCodes } from 'http-status-codes'
 import moment from 'moment'
 import { Ingredient } from "../models/ingredient.js"
-import { notFound } from '../errors/customError.js'
+import { NotFoundError } from '../errors/customError.js'
 
 //async try catch managed by package 'express-async-errors' in all controllers
 //all custom errors (explicitely thrown) or runtime errors are handled by the error management middleware
 
 const getAllIngredients = async (req, res) => {
 
+    //estimatedDocumentCount will ignore the query object
     let totalHits = await Ingredient.estimatedDocumentCount({});
     const ingredients = await Ingredient.find({}).exec();
 
-    res.status(200).json({ ingredients })
+    res.status(StatusCodes.OK).json({ ingredients })
 }
 
 const getIngredient = async (req, res) => {
@@ -20,9 +22,9 @@ const getIngredient = async (req, res) => {
     const ingredient = await Ingredient.findById(ingredientId).exec();
 
     if (!ingredient)
-        throw notFound()
+        throw new NotFoundError('Ingredient not found')
 
-    res.status(200).json({ ingredient })
+    res.status(StatusCodes.OK).json({ ingredient })
 }
 
 const createIngredient = async (req, res) => {
@@ -32,7 +34,7 @@ const createIngredient = async (req, res) => {
 
     await ingredient.save();
 
-    res.status(201).json({ ingredient })
+    res.status(StatusCodes.CREATED).json({ ingredient })
 }
 
 const updateIngredient = async (req, res) => {
@@ -46,9 +48,9 @@ const updateIngredient = async (req, res) => {
     }).exec();
 
     if (!ingredient)
-        throw notFound()
+        throw new NotFoundError('Ingredient not found')
 
-    res.status(200).json({ ingredient })
+    res.status(StatusCodes.OK).json({ ingredient })
 }
 
 const deleteIngredient = async (req, res) => {
@@ -57,9 +59,9 @@ const deleteIngredient = async (req, res) => {
     const ingredient = await Ingredient.findByIdAndDelete(ingredientId).exec();
 
     if (!ingredient)
-        throw notFound()
+        throw new NotFoundError('Ingredient not found')
 
-    res.status(200).json({ ingredient })
+    res.status(StatusCodes.OK).json({ ingredient })
 }
 
 export { getAllIngredients, getIngredient, createIngredient, updateIngredient, deleteIngredient }

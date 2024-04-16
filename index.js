@@ -11,6 +11,7 @@ import { errorHandler as errorHandlerMiddleware } from './middleware/errorHandle
 
 //Routes
 import { ingredientsRouter } from './routes/ingredients.js'
+import { authRouter } from './routes/auth.js';
 
 //Load .env file
 dotenv.config();
@@ -22,12 +23,13 @@ const app = express();
 app.use(express.json())
 
 //Routes
+app.use('/api/v1/auth', authRouter)
 app.use('/api/v1/ingredients', ingredientsRouter)
 
 //404 management
 app.use(notFoundMiddleware)
 
-//error management
+//Error management
 app.use(errorHandlerMiddleware)
 
 const start = async () => {

@@ -1,6 +1,10 @@
 import dotenv from 'dotenv'
 import express from 'express';
 import 'express-async-errors';
+import cookieParser from 'cookie-parser';
+import { credentials } from './middleware/credentials.js';
+import { corsOptions } from './cors/corsOptions.js';
+import cors from 'cors'
 
 //Database
 import { connectDB } from "./db/connect.js";
@@ -19,8 +23,21 @@ dotenv.config();
 //Load express
 const app = express();
 
-//Middleware
-app.use(express.json())
+// Handle options credentials check - before CORS!
+// and fetch cookies credentials requirement
+app.use(credentials);
+
+// Cross Origin Resource Sharing
+app.use(cors(corsOptions));
+
+// built-in middleware to handle urlencoded form data
+app.use(express.urlencoded({ extended: false }));
+
+// built-in middleware for json 
+app.use(express.json());
+
+//middleware for cookies
+app.use(cookieParser());
 
 //Routes
 app.use('/api/v1/auth', authRouter)

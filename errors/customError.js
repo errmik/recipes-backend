@@ -35,8 +35,13 @@ class UnauthorizedError extends CustomError {
 
 }
 
-// const notFound = () => {
-//     return new CustomError('not found', 404);
-// }
+class ForbiddendError extends CustomError {
 
-export { CustomError, NotFoundError, BadRequestError, UnauthorizedError }
+    constructor(message) {
+        super(message)
+        this.statusCode = StatusCodes.FORBIDDEN
+    }
+
+}
+
+export { CustomError, NotFoundError, BadRequestError, UnauthorizedError, ForbiddendError }

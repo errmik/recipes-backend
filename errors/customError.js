@@ -44,4 +44,13 @@ class ForbiddendError extends CustomError {
 
 }
 
-export { CustomError, NotFoundError, BadRequestError, UnauthorizedError, ForbiddendError }
+class EmailError extends CustomError {
+
+    constructor(message) {
+        super(message)
+        this.statusCode = StatusCodes.BAD_GATEWAY
+    }
+
+}
+
+export { CustomError, NotFoundError, BadRequestError, UnauthorizedError, ForbiddendError, EmailError }

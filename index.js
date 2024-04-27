@@ -1,4 +1,10 @@
-import dotenv from 'dotenv'
+//Only way to force dotenv.config() to be called BEFORE any ohter imported code
+//You can't use the following code :
+//import dotenv from 'dotenv'
+//dotenv.config();
+//dotenv.config() will be called after all the imported code
+import 'dotenv/config'
+
 import express from 'express';
 import 'express-async-errors';
 import cookieParser from 'cookie-parser';
@@ -16,9 +22,6 @@ import { errorHandler as errorHandlerMiddleware } from './middleware/errorHandle
 //Routes
 import { ingredientsRouter } from './routes/ingredients.js'
 import { authRouter } from './routes/auth.js';
-
-//Load .env file
-dotenv.config();
 
 //Load express
 const app = express();
@@ -67,3 +70,4 @@ const start = async () => {
 start();
 
 //https://stackoverflow.com/questions/61305997/how-to-implement-recipes-in-mongodb-mongoose
+//https://dev.to/cyberwolves/how-to-verify-user-email-in-node-express-eaj

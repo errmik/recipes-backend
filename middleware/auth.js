@@ -1,12 +1,13 @@
 import jwt from 'jsonwebtoken'
 import { UnauthorizedError } from '../errors/customError.js'
 
+//Auth middleware : checks for a valid Bearer token
 const auth = async (req, res, next) => {
 
     //Check header
-    const authHeader = req.headers.authorization
+    const authHeader = req.headers.authorization || req.headers.Authorization
 
-    if (!authHeader || !authHeader.startsWith('Bearer')) {
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
         throw new UnauthorizedError('Unauthorized')
     }
 
@@ -19,10 +20,14 @@ const auth = async (req, res, next) => {
 
         //Attach the tokenized user to the query
         req.user = { userId: payload.userId, name: payload.name, email: payload.email }
+
         next()
+
     } catch (error) {
         throw new UnauthorizedError('Unauthorized')
     }
 }
+
+//TODO : check role middleware : 
 
 export { auth }

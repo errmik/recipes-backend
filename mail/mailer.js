@@ -21,9 +21,7 @@ transporter.verify((err, success) => {
         console.log('Connected to mail service');
 });
 
-console.log(transporter.options.host);
-
-let sendMail = async (mailOptions) => {
+const sendMail = async (mailOptions) => {
 
     //Apply mail from
     mailOptions.from = process.env.MAIL_FROM;
@@ -37,4 +35,38 @@ let sendMail = async (mailOptions) => {
 
 };
 
-export { sendMail }
+const sendVerificationMail = async (user, url) => {
+
+    ///TODO : templating engine
+
+    //Send verification email
+    const mailOptions = {
+        to: user.email,
+        subject: 'Verification email',
+        text: `Copy paste this link to verify your account : ${url}`,
+        html: `Click this link to verify your account : ${url}`
+    };
+
+    await sendMail(mailOptions);
+
+};
+
+const sendPasswordResetMail = async (user, url) => {
+
+    ///TODO : templating engine
+    
+    //must redirect to a frontend page, that will post to resetpassword
+
+    //Send verification email
+    const mailOptions = {
+        to: user.email,
+        subject: 'Reset password email',
+        text: `Copy paste this link to reset your password : ${url}`,
+        html: `Click this link to reset your password : ${url}`
+    };
+
+    await sendMail(mailOptions);
+
+};
+
+export { sendMail, sendVerificationMail, sendPasswordResetMail }

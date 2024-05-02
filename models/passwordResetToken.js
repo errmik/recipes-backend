@@ -1,6 +1,6 @@
 import mongoose, { Schema as Schema } from 'mongoose';
 
-const EmailValidationTokenSchema = new mongoose.Schema({
+const PasswordResetTokenSchema = new mongoose.Schema({
     user: {
         type: Schema.Types.ObjectId,
         ref: "user",
@@ -15,6 +15,6 @@ const EmailValidationTokenSchema = new mongoose.Schema({
     }
 })
 
-const EmailValidationToken = mongoose.model('EmailValidationToken', EmailValidationTokenSchema)
+const PasswordResetToken = mongoose.model('PasswordResetToken', PasswordResetTokenSchema)
 
-export { EmailValidationToken } 
+export { PasswordResetToken } 

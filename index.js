@@ -16,7 +16,7 @@ import cors from 'cors'
 import { connectDB } from "./db/connect.js";
 
 //Middleware
-import { notFound as notFoundMiddleware } from './middleware/notfound.js';
+import { notFound as notFoundMiddleware } from './middleware/notFound.js';
 import { errorHandler as errorHandlerMiddleware } from './middleware/errorHandler.js';
 
 //Routes

@@ -58,6 +58,8 @@ const start = async () => {
 
         await connectDB(process.env.RECIPES_DB_URL);
 
+        console.log('Connected to MongoDb');
+
         app.listen(process.env.PORT, () => {
             console.log(`Listening to Port ${process.env.PORT}`)
         });

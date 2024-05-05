@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activation de compte</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            padding-bottom: 20px;
+        }
+
+        .header h1 {
+            color: #333333;
+            margin: 0;
+        }
+
+        .content {
+            padding: 20px;
+            overflow-wrap: break-word;
+        }
+
+        .centered {
+            text-align: center;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .footer {
+            padding-top: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #777777;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h1>Activation de compte</h1>
+        </div>
+        <div class="content">
+            <p>Bonjour {{FirstName}},</p>
+            <p>Vous venez de vous inscrire sur le site "Recipes".</p>
+            <p>Avant de pouvoir vous connecter, votre email doit être vérifié.</p>
+            <p>Pour activer votre compte, veuillez cliquer sur le lien ci-dessous :</p>
+            <p class="centered"><a href="{{ActivationLink}}" class="button">Activer mon compte</a></p>
+            <p>Si le bouton ne fonctionne pas, vous pouvez également copier-coller ce lien dans la barre d'adresse de
+                votre navigateur :</p>
+            <p>{{ActivationLink}}</p>
+            <p>Merci,</p>
+        </div>
+        <div class="footer">
+            <p>Cet e-mail a été envoyé automatiquement. Merci de ne pas y répondre.</p>
+        </div>
+    </div>
+
+</body>
+
+</html>

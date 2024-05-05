@@ -4,11 +4,14 @@ import { EmailValidationToken } from "../models/emailValidationToken.js";
 import { PasswordResetToken } from "../models/passwordResetToken.js"
 import { BadRequestError, UnauthorizedError, ForbiddendError, EmailError } from "../errors/customError.js";
 import { sendVerificationMail, sendPasswordResetMail } from '../mail/mailer.js'
+import { transformTemplate } from "../templates/templates.js";
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
 
 //TODO : rate limiting on all those controller
+//implement lock account
+//send email on password reset
 
 const register = async (req, res) => {
 
@@ -137,7 +140,11 @@ const verify = async (req, res) => {
     //Delete verification token
     await EmailValidationToken.findByIdAndDelete(tokenInDb._id);
 
-    res.status(StatusCodes.OK).json({ msg: 'Your account has been verified. You can now log in.', name: user.name, email: user.email })
+    //TODO : renvoyer un html de verification
+    var result = await transformTemplate('./templates/activated.html', { FirstName: user.name, LoginLink: process.env.RECIPES_UI_URL })
+    
+    res.status(StatusCodes.OK).send(result)
+    //res.status(StatusCodes.OK).json({ msg: 'Your account has been verified. You can now log in.', name: user.name, email: user.email })
 }
 
 const forgotPassword = async (req, res) => {

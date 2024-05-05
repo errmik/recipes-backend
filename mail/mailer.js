@@ -1,5 +1,6 @@
 import nodemailer from 'nodemailer'
 import { EmailError } from "../errors/customError.js"
+import { transformTemplate } from '../templates/templates.js';
 
 var smtpConfig = {
     host: process.env.MAIL_HOST,
@@ -37,24 +38,23 @@ const sendMail = async (mailOptions) => {
 
 const sendVerificationMail = async (user, url) => {
 
-    ///TODO : templating engine
+    var result = await transformTemplate('./templates/activation.html', { FirstName: user.name, ActivationLink: url })
 
     //Send verification email
     const mailOptions = {
         to: user.email,
         subject: 'Verification email',
         text: `Copy paste this link to verify your account : ${url}`,
-        html: `Click this link to verify your account : ${url}`
+        html: result
     };
 
     await sendMail(mailOptions);
-
 };
 
 const sendPasswordResetMail = async (user, url) => {
 
     ///TODO : templating engine
-    
+
     //must redirect to a frontend page, that will post to resetpassword
 
     //Send verification email
